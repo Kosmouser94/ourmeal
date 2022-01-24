@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>관리자 페이지</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        .pageul {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pageli {
+            list-style-type: none;
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/admin">관리자 페이지</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="/admin/productList">상품 관리</a>
+                        <a class="nav-link" href="/members">회원 관리</a>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    </div> <!-- header -->
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>상품사진</th>
+                <th>고유번호</th>
+                <th>상품분류</th>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>재고수량</th>
+                <th>등록일</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${pList}" th:onClick="'window.location.href=\'' + @{/admin/productEdit/{id} (id=${item.pID})} + '\''" style="cursor: pointer">
+                <td><img th:src="@{/pImg/{name} (name=${item.pFileName})}" style="width: 100px; height: 100px"></td>
+                <td th:text="${item.pID}"></td>
+
+                <!-- pCategory 정수값에 따라 어떤 카테고리인지 문자로 명확히 표시 -->
+                <td th:if="${item.pCategory} == '100'" th:text="반찬"></td>
+                <td th:if="${item.pCategory} == '200'" th:text="김치"></td>
+                <td th:if="${item.pCategory} == '300'" th:text="국"></td>
+                <td th:if="${item.pCategory} == '400'" th:text="메인요리"></td>
+                <td th:if="${item.pCategory} == '500'" th:text="간편식"></td>
+                <td th:if="${item.pCategory} == '600'" th:text="정육"></td>
+                <td th:if="${item.pCategory} == '700'" th:text="식재료"></td>
+
+                <td th:text="${item.pName}"></td>
+                <td th:text="${item.pPrice}"></td>
+                <td th:text="${item.pStock}"></td>
+                <td th:text="${item.pDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <form action="/admin/productSearch" method="GET">
+            <div class="search">
+                <input name="keyword" type="text" placeholder="상품명 입력">
+                <button>검색</button>
+            </div>
+        </form>
+        <br/>
+        <a href="/admin/productNew" class="btn btn-primary" role="button">상품 등록</a>
+    </div>
+
+    <div class="footer">
+        <p>&copy; Ourmeal</p>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

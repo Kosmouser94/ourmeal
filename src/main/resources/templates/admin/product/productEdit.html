@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>관리자 페이지</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/admin">관리자 페이지</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="/admin/productList">상품 관리</a>
+                        <a class="nav-link" href="/members">회원 관리</a>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    </div> <!-- header -->
+
+    <form th:object="${pItem}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{pID}" />
+        <input type="hidden" th:field="*{pFileName}" />
+        <div class="form-group">
+            <label th:for="pID">고유번호</label>
+            <input type="text" th:field="*{pID}" class="form-control" disabled="disabled">
+        </div>
+        <div class="form-group">
+            <label th:for="pCategory">상품분류</label>
+            <select th:field="*{pCategory}" class="form-control">
+                <option value="100">반찬(100)</option>
+                <option value="200">김치(200)</option>
+                <option value="300">국(300)</option>
+                <option value="400">메인요리(400)</option>
+                <option value="500">간편식(500)</option>
+                <option value="600">정육(600)</option>
+                <option value="700">식재료(700)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label th:for="pName">상품명</label>
+            <input type="text" th:field="*{pName}" class="form-control" placeholder="상품명을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="pPrice">가격</label>
+            <input type="number" th:field="*{pPrice}" class="form-control" placeholder="가격을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="pStock">재고</label>
+            <input type="number" th:field="*{pStock}" class="form-control" placeholder="재고를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="pContent">설명</label>
+            <br />
+            <textarea class="form-control" th:field="*{pContent}" style="height: 100px"></textarea>
+        </div>
+        <div class="form-group">
+            <label>이미지</label>
+            <br />
+            <td><img th:src="@{/pImg/{name} (name=${pItem.pFileName})}" style="width: 100px; height: 100px"></td>
+            <input type="file" name="img"><span>&nbsp;(확장자가 JPG, JPEG, PNG 인 사진 파일만 저장 가능)</span>
+        </div>
+        <button type="submit" class="btn btn-primary">수정</button>
+        <a th:href="@{/admin/productRemove/{id} (id=${pItem.pID})}" class="btn btn-primary" role="button">삭제</a>
+    </form>
+
+    <div class="footer">
+        <p>&copy; Ourmeal</p>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
